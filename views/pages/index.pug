@@ -1,0 +1,16 @@
+extends ../layout.pug
+
+block content
+	.container
+		h1 #{title}
+		hr
+		.row
+			each item in movies
+				.col-xs-6.col-md-3
+					.thumbnail
+						a(href='/movie/'+item._id)
+							img(src=item.poster,alt=item.title)
+						.caption
+							h3 #{item.title}
+							p #{item.summary}
+							p: a.btn.btn-primary(href='/movie/'+item._id) 播放

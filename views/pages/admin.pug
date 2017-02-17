@@ -1,0 +1,43 @@
+extend ../layout.pug
+block content
+	.container
+		h1= title
+		hr
+		.row
+			form.form-horizontal(method='post',action='/admin/movie/new',enctype="multipart/form-data")
+				input(type='hidden',name='movie[_id]',value=movie?movie._id:null)
+				.form-group
+					label.col-sm-2.control-label(for='inputTitle') 电影名字
+					.col-sm-10
+						input#inputTitle.form-control(type='text',name='movie[title]',value = movie?movie.title:null)
+				.form-group
+					label.col-sm-2.control-label(for='inputDirector') 电影导演
+					.col-sm-10
+						input#inputDirector.form-control(type='text',name='movie[director]',value = movie?movie.director:null)
+				.form-group
+					label.col-sm-2.control-label(for='inputCountry') 国家
+					.col-sm-10
+						input#inputCountry.form-control(type='text',name='movie[country]',value = movie?movie.country:null)
+				.form-group
+					label.col-sm-2.control-label(for='inputLanguage') 语种
+					.col-sm-10
+						input#inputLanguage.form-control(type='text',name='movie[language]',value = movie?movie.language:null)
+				.form-group
+					label.col-sm-2.control-label(for='inputPoster') 海报地址
+					.col-sm-10
+						input#inputPoster.form-control(type='text',name='movie[poster]',value = movie?movie.poster:null)
+				.form-group
+					label.col-sm-2.control-label(for='inputFlash') 片源地址
+					.col-sm-10
+						input#inputPoster.form-control(type='text',name='movie[flash]',value = movie?movie.flash:null)
+				.form-group
+					label.col-sm-2.control-label(for='inputYear') 上映年代
+					.col-sm-10
+						input#inputPoster.form-control(type='text',name='movie[year]',value = movie?movie.year:null)
+				.form-group
+					label.col-sm-2.control-label(for='inputSummary') 电影简介
+					.col-sm-10
+						textarea#inputPoster.form-control(name='movie[summary]',value = movie?movie.summary:null)
+				.form-group
+					.col-sm-offset-2.col-sm-10
+						button.btn.btn-default(type='submit') Submit
