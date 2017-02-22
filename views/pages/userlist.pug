@@ -1,0 +1,17 @@
+extend ../layout.pug
+
+block content
+	.container
+		h1= title
+		hr
+		.row
+			table.table.table-hover.table-bordered
+				thead
+					tr
+						th 名字
+						th 密码
+					tbody
+						each item in users
+							tr
+								td= item.name
+								td= item.password

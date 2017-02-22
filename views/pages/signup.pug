@@ -1,0 +1,15 @@
+extend ../layout
+
+block content
+	.container
+		h1.text-center 用户注册
+		.row
+			.col-md-7(style="left: 200px;top: 60px;")
+				form(method='post',action='/user/signup',enctype="multipart/form-data")
+					div.form-group
+						label(for='name') Name
+						input.form-control#name(type='text',placeholder='Name',name='user[name]')
+					div.form-group
+						label(for='password') password
+						input.form-control#name(type='text',placeholder='Name',name='user[password]')
+					<button type="submit" class="btn btn-default">Submit</button>

@@ -1,5 +1,5 @@
-
 var mongoose = require('mongoose');
+
 
 var Schema = mongoose.Schema;
 
@@ -30,7 +30,7 @@ mySchema.pre('save',function(next){
 	}else{
 		this.meta.updateAt = Date.now();
 	}
-	next();
+    next();
 });
 mySchema.statics = {
 	fetch:function(cb){
@@ -42,4 +42,4 @@ mySchema.statics = {
 }
 
 
-module.exports = mongoose.model('movies', mySchema);
+module.exports = mongoose.model('movie', mySchema);

@@ -1,0 +1,47 @@
+.container
+	.navbar.navbar-default
+		.container-fluid
+			.navbar-header
+				a.navbar-brand(href='/') 重度科幻迷
+			if locals.user
+				p.navbar-text.navbar-right(style='margin-right:10px')
+					span=locals.user.name
+					span &nbsp;|&nbsp;
+					a.navbar-link(href='/logout') 登出
+			else
+				p.navbar-text.navbar-right(style='margin-right:10px')
+					a.navbar-link(href='#',data-toggle='modal',data-target='#signupModal') 注册
+					span &nbsp;|&nbsp;
+					a.navbar-link(href='#',data-toggle='modal',data-target='#signinModal') 登录
+
+.modal.fade#signupModal(tabindex='-1',role='dialog',aria-labelledby="myModalLabel")
+	.modal-dialog(role='document')
+		.modal-content
+			form(method='post',action='/user/signup',enctype="multipart/form-data")
+				.modal-header 注册
+				.modal-body
+					.form-group
+						label(for='signUpName') 用户名
+						input#signUpName.form-control(name='user[name]',type='text',placeholder='name')
+					.form-group
+						label(for='signUpPassword') 密码
+						input#signUpPassword.form-control(name='user[password]',type='text',placeholder='password')
+				.modal-footer
+					button.btn.btn-default(type='button',data-dismiss='modal') 关闭
+					button.btn.btn-success(type='submit') 提交
+
+.modal.fade#signinModal(tabindex='-1',role='dialog',aria-labelledby="myModalLabel")
+	.modal-dialog(role='document')
+		.modal-content
+			form(method='post',action='/user/signin',enctype="multipart/form-data")
+				.modal-header 注册
+				.modal-body
+					.form-group
+						label(for='signInName') 用户名
+						input#signUpName.form-control(name='user[name]',type='text',placeholder='name')
+					.form-group
+						label(for='signInPassword') 密码
+						input#signUpPassword.form-control(name='user[password]',type='text',placeholder='password')
+				.modal-footer
+					button.btn.btn-default(type='button',data-dismiss='modal') 关闭
+					button.btn.btn-success(type='submit') 提交

@@ -1,12 +1,41 @@
 extend ../layout.pug
 
+
 block content
+	style.
+		.comment dd{
+			margin-left: 15px;
+			font-size:15px;
+			border-bottom: 1px dotted gray;
+			margin-bottom: 2px;
+		}
+		.comment dd p{
+			padding-left: 50px;
+		}
+		.comment dt img{
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			background-color: pink;
+			position: relative;
+			top: 10px;
+		}
+		#second{
+			box-shadow: 0 0 1px gray 
+		}
 	.container
 		h1= movie.title
 		hr
 		.row
 			.col-md-7
-				video(controls='controls',autoplay='autoplay',src= movie.flash) your browser does not support video
+				video(controls='controls',src= movie.flash,style='width:100%') your browser does not support video
+				hr
+				form(method='post',action='/user/comment',enctype='multipart/form-data')
+					input(type='hidden',name='comment[movie]',value=movie._id)
+					input(type='hidden',name='comment[from]',value=user._id)
+					.form-group
+						textarea.form-control(name='comment[content]',row='3')
+						button.btn.btn-primary(type='submit',style='margin-top:5px;') 提交
 			.col-md-5
 				dl.dl-horizontal
 					dt 电影名字
@@ -21,3 +50,12 @@ block content
 					dd= movie.year
 					dt 简介
 					dd= movie.summary
+				hr
+				div#second
+					dl.comment
+						each item in comments
+							dt
+								img(src='/images/skin.jpg') 
+								span &nbsp;&nbsp; #{item.from.name}
+							dd
+								p #{item.content}
