@@ -17,7 +17,7 @@ router.get('/logout',function(req,res,next){
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	//console.log(req.session.user);
+	console.log(req.session.user);
 	if(req.session.user){
 		res.locals.user = req.session.user;
 	}

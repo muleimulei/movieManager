@@ -3,6 +3,9 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+
+var session = require('express-session');
+
 var index = require('./routes/index');
 var mongoose =  require('mongoose');
 var multer = require('multer');
@@ -15,7 +18,9 @@ var app = express();
 
 app.locals.moment = moment;
 
-mongoose.connect('mongodb://localhost/movie');
+mongoose.connect('mongodb://localhost/imoocmovie');
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views/pages'));
@@ -25,11 +30,19 @@ app.set('view engine', 'pug');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(cookieParser());
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}))
 app.use(express.static(path.join(__dirname, 'public')));
 
 
 
 app.use('/', index);
+app.use('/user',require('./routes/user.js'));
+app.use('/admin',require('./routes/admin.js'));
+app.use('/movie',require('./routes/movie.js'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

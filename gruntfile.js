@@ -1,51 +1,62 @@
 
 module.exports = function(grunt){
 	grunt.initConfig({
-		watch:{
-			pug:{
-				files:['views/**'],
-				options:{
-					livereload:true
-				}
-			},
-			jsAndCss:{
-				files:['public/**/*.js','public/**/*.css'],
-				options:{
-					livereload: true
-				}
-			}
+		concurrent: {
+		  dev: {
+		    tasks: ['nodemon', 'watch'],
+		    options: {
+		      logConcurrentOutput: true
+		    }
+		  }
 		},
-
-		nodemon:{
-			dev:{
-				options:{
-					file: 'app.js',
-					args: [],
-					ignoredFiles: ['README.md','node_modules/**','.DS_Store'],
-					watchedExtensions:['js'],
-					watchedFolder:['app','config'],
-					debug: true,
-					delayTime: 1,
-					env: {
-						PORT: 3000
-					},
-					cwd: __dirname
-				}
-			}
+		nodemon: {
+		  dev: {
+		    script: './bin/www',
+		    options: {
+		      nodeArgs: ['--debug'],
+		      env: {
+		        PORT: '5455'
+		      },
+		      // omit this property if you aren't serving HTML files and  
+		      // don't want to open a browser tab on start 
+		      callback: function (nodemon) {
+		        nodemon.on('log', function (event) {
+		          console.log(event.colour);
+		        });
+		        
+		        // opens browser on initial server start 
+		        nodemon.on('config:update', function () {
+		          // Delay before server listens on port 
+		          setTimeout(function() {
+		            require('open')('http://localhost:5455');
+		          }, 1000);
+		        });
+		 
+		        // refreshes browser when server reboots 
+		        nodemon.on('restart', function () {
+		          // Delay before server listens on port 
+		          setTimeout(function() {
+		            require('fs').writeFileSync('.rebooted', 'rebooted');
+		          }, 1000);
+		        });
+		      }
+		    }
+		  }
 		},
-
-		concurrent:{
-			tasks: ['nodemon','watch'],
-			options:{
-				logConcurrentOutput:true
-			}
+		watch: {
+		  server: {
+		    files: ['.rebooted'],
+		    options: {
+		      livereload: true
+		    }
+		  } 
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('nodemon');
-	grunt.loadNpmTasks('grunt-contrib-concurrent');
+	grunt.loadNpmTasks('grunt-nodemon');
+	grunt.loadNpmTasks('grunt-concurrent');
 
 
-	grunt.registerTask('default',['watch','nodemon']);
+	grunt.registerTask('default',['concurrent']);
 }
