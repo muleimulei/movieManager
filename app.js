@@ -44,6 +44,17 @@ app.use('/user',require('./routes/user.js'));
 app.use('/admin',require('./routes/admin.js'));
 app.use('/movie',require('./routes/movie.js'));
 
+
+app.get('/login',function(req,res,next){
+  res.render('login.pug');
+})
+
+app.get('/logout',function(req,res,next){
+    req.session.destroy(function(){
+      console.log('用户登出');
+    });
+})
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
