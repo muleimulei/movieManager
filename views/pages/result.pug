@@ -1,0 +1,31 @@
+extends ../layout.pug
+
+block content
+	.container
+		h1 #{title}
+		hr
+		.row
+			.panel.panel-primary
+				.panel-heading
+					h3 #{keyword}
+				.panel-body
+					if movies && movies.length >0
+						each item in movies
+							.col-xs-3.col-md-3
+								.thumbnail
+									a(href='/movie/'+item._id)
+										img(src=item.poster,alt=item.title)
+									.caption
+										h3 #{item.title}
+										h4 #{item.summary}
+										p: a.btn.btn-primary(href='/movie/'+item._id) 播放
+			ul.pagination
+				- for(var i = 0;i<totalPage;i++){
+					- if(i+1==currentPage){
+						li.active
+							span #{currentPage}
+					- }else{
+						li
+							a(href='/search?page='+(i+1)+'&category='+cat) #{i+1}
+					- }
+				- }

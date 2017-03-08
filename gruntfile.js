@@ -1,4 +1,3 @@
-
 module.exports = function(grunt){
 	grunt.initConfig({
 		concurrent: {
@@ -28,7 +27,7 @@ module.exports = function(grunt){
 		        nodemon.on('config:update', function () {
 		          // Delay before server listens on port 
 		          setTimeout(function() {
-		            require('open')('http://localhost:5455');
+		            require('open')('http://localhost:5455','firefox');
 		          }, 1000);
 		        });
 		 
@@ -56,7 +55,6 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-nodemon');
 	grunt.loadNpmTasks('grunt-concurrent');
-
 
 	grunt.registerTask('default',['concurrent']);
 }

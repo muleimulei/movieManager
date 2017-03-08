@@ -5,7 +5,30 @@ block content
 		hr
 		.row
 			form.form-horizontal(method='post',action='/admin/movie/new',enctype="multipart/form-data")
-				input(type='hidden',name='movie[_id]',value=movie?movie._id:null)
+				.form-group
+					label.col-sm-2.control-label(for='inputTitle') 豆瓣同步
+					.col-sm-10
+						input#douban.form-control(type='text')
+				//- 如果是修改电影信息
+				if movie
+					input(type='hidden',name='movie[_id]',value=movie._id)
+						
+				input(type='hidden',name='movie[category]',value=movie?movie.category:null)
+				.form-group
+					label.col-sm-2.control-label(for='inputcategory') 电影分类
+					.col-sm-10
+						input#inputcategory.form-control(type='text',name='movie[categoryName]',value = movie?movie.category:null)
+				//- 电影分类
+				.form-group
+					label.col-sm-2.control-label(for='inputcategory') 电影分类选择
+					each cat in categories
+						.radio-inline(style='margin-left:50px')
+							if movie
+								input(type='radio',name='movie[category]',value=cat._id,checked= movie.category.toString()==cat._id.toString())
+								span #{cat.name}
+							else
+								input(type='radio',name='movie[category]',value=cat._id)
+								span #{cat.name}
 				.form-group
 					label.col-sm-2.control-label(for='inputTitle') 电影名字
 					.col-sm-10
@@ -29,15 +52,34 @@ block content
 				.form-group
 					label.col-sm-2.control-label(for='inputFlash') 片源地址
 					.col-sm-10
-						input#inputPoster.form-control(type='text',name='movie[flash]',value = movie?movie.flash:null)
+						input#inputFlash.form-control(type='text',name='movie[flash]',value = movie?movie.flash:null)
 				.form-group
 					label.col-sm-2.control-label(for='inputYear') 上映年代
 					.col-sm-10
-						input#inputPoster.form-control(type='text',name='movie[year]',value = movie?movie.year:null)
+						input#inputYear.form-control(type='text',name='movie[year]',value = movie?movie.year:null)
 				.form-group
 					label.col-sm-2.control-label(for='inputSummary') 电影简介
 					.col-sm-10
-						textarea#inputPoster.form-control(name='movie[summary]',value = movie?movie.summary:null)
+						textarea#inputSummary.form-control(name='movie[summary]',value = movie?movie.summary:null)
 				.form-group
 					.col-sm-offset-2.col-sm-10
 						button.btn.btn-default(type='submit') Submit
+	script.
+		$(function(){
+			$('#douban').blur(function(){
+				var id = $(this).val();
+				console.log(id);
+				if(id=='') return;
+				$.getJSON({
+					url: 'https://api.douban.com/v2/movie/subject/'+id+'?callback=?',
+					success:function(data){
+						$('#inputTitle').val(data.title);
+						$('#inputDirector').val(data.directors.name);
+						$('#inputSummary').val(data.summary);
+						$('#inputCountry').val(data.countries[0]);
+						$('#inputPoster').val(data.images.medium);
+						$('#inputYear').val(data.year);
+					}
+				});
+			})
+		}())

@@ -1,0 +1,15 @@
+extend ../layout.pug
+
+block content
+	.container
+		h1= title
+		hr
+		.row
+			form.form-horizontal(method='post',action='/admin/category/save',enctype="multipart/form-data")
+				.form-group
+					label.col-sm-2.control-label(for='inputcategory') 电影分类
+					.col-sm-10
+						input#inputcategory.form-control(type='text',name="category[name]",value = category? category.name: null)
+				.form-group
+					.col-sm-offset-2.col-sm-10
+						button.btn.btn-default(type='submit') Submit

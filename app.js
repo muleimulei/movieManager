@@ -12,8 +12,6 @@ var multer = require('multer');
 var upload = multer()
 var moment = require('moment');
 
-
-
 var app = express();
 
 app.locals.moment = moment;
@@ -41,12 +39,14 @@ app.use(function(req,res,next){
   if(req.session.user){
     res.locals.user = req.session.user;
   }
+  next();
 });
 
 app.use('/', index);
 app.use('/user',require('./routes/user.js'));
 app.use('/admin',require('./routes/admin.js'));
 app.use('/movie',require('./routes/movie.js'));
+
 
 
 app.get('/login',function(req,res,next){
